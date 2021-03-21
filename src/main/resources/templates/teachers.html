@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Spring Security Example</title>
+</head>
+<body>
+	<h1>Teachers!</h1>
+	<div th:if="${error}" class="alert alert-danger" role="alert">
+	  <span th:text="${${error}"> Name </span>
+	</div>
+    <hr />
+    <a th:href="@{/edit/0}" class="btn btn-secondary">New</a>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>identification</th>
+				<th>active</th>
+				<th>edit</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${teachers.empty}">
+				<td colspan="2">No Books Available</td>
+			</tr>
+
+			<tr th:each="t : ${teachers}">
+				<td><span th:text="${t.name}"> Name </span></td>
+				<td><span th:text="${t.address}"> Address </span></td>
+				<td><span th:text="${t.identification}"> identification </span></td>
+				<td><span th:text="${t.active}"> active </span></td>
+				<td><a th:href="@{/edit/{id}(id=${t.id})}">edit</a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
