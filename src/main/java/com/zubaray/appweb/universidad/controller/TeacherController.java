@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.zubaray.appweb.universidad.models.ListView;
 import com.zubaray.appweb.universidad.models.StandardResponseDto;
 import com.zubaray.appweb.universidad.models.Teacher;
 import com.zubaray.appweb.universidad.repositories.TeacherRepository;
+import com.zubaray.appweb.universidad.services.TeacherService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,11 +36,17 @@ public class TeacherController {
 
     @Autowired
     private TeacherRepository repository;
+    @Autowired
+    private TeacherService service;
 
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(Model model,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
         log.info("listing all teachers");
-        model.addAttribute("teachers", repository.findAll());
+        ListView<Teacher> teachers = service.findAll(page, size);
+        model.addAttribute("teachers", teachers.getData());
+        model.addAttribute("teacherPages", teachers);
         return LIST_PAGE;
     }
 

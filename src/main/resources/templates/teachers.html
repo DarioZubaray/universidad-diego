@@ -41,5 +41,28 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div class="table-pagination">
+		<ul class="pagination">
+			<li th:class="${teacherPages.currentPage eq 0} ? 'disabled' : ''">
+				<a th:if="${not teacherPages.firstPage}" th:href="@{${'/teacher/list'}(page=${teacherPages.currentPage-1},size=${teacherPages.sizeShowed})}">Previous</a>
+				<a th:if="${teacherPages.firstPage}" href="javascript:void(0);">Previous</a>
+			</li>
+	
+			<li th:each="pageNo : ${#numbers.sequence(0, teacherPages.totalPages - 1)}" th:class="${teacherPages.currentPage eq pageNo}? 'active' : ''">
+				<a th:if="${teacherPages.currentPage  eq pageNo}" href="javascript:void(0);">
+					<span th:text="${pageNo + 1}"></span>
+				</a>
+				<a th:if="${not (teacherPages.currentPage  eq pageNo)}" th:href="@{${'/teacher/list'}(page=${pageNo},size=${teacherPages.sizeShowed})}">
+					<span th:text="${pageNo + 1}"></span>
+				</a>
+	
+			</li>
+			<li th:class="${teacherPages.currentPage + 1 ge teacherPages.totalPages} ? 'disabled' : ''">
+				<a th:if="${not teacherPages.lastPage}" th:href="@{${'/teacher/list'}(page=${teacherPages.currentPage+1},size=${teacherPages.sizeShowed})}">Next</a>
+				<a th:if="${teacherPages.lastPage}" href="javascript:void(0);">Next</a>
+			</li>
+		</ul>
+	</div>
 </body>
 </html>
