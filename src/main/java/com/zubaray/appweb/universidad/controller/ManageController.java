@@ -21,14 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class ManageController {
-    
+
     @Autowired
     private TeacherRepository repository;
 
     @GetMapping("/list")
-    public String list(Model model, RedirectAttributes flash) {
-        log.info("errors: {}", flash.getAttribute("error"));
-        model.addAttribute("error", flash.getAttribute("error"));
+    public String list(Model model) {
+        log.info("listing all teachers");
         model.addAttribute("teachers", repository.findAll());
         return "teachers";
     }
@@ -59,8 +58,6 @@ public class ManageController {
         return "edit";
     }
 
-    // POST nuevo teacher by dto
-
     @PostMapping(path = "/save",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String edit(@ModelAttribute Teacher teacher) {
@@ -69,10 +66,15 @@ public class ManageController {
         return "redirect:/list";
     }
 
-    // DELETE teacher by ID
     @DeleteMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable int id, Model model) {
-        repository.deleteById(Long.valueOf(id));
+    public String eliminar(@PathVariable String id, Model model, RedirectAttributes flash) {
+        try {
+            Long teacherId = Long.valueOf(id);
+            repository.deleteById(teacherId);
+        } catch (NumberFormatException e) {
+            log.error("error: {}", e.getMessage(), e);
+            flash.addFlashAttribute("error", e.getMessage());
+        }
         return"redirect:/list";
     }
 
