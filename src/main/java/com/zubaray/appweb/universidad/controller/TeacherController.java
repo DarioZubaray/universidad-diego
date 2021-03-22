@@ -24,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.zubaray.appweb.universidad.models.ListView;
 import com.zubaray.appweb.universidad.models.StandardResponseDto;
 import com.zubaray.appweb.universidad.models.Teacher;
-import com.zubaray.appweb.universidad.repositories.TeacherRepository;
 import com.zubaray.appweb.universidad.services.TeacherService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/teacher")
 public class TeacherController {
 
-    @Autowired
-    private TeacherRepository repository;
     @Autowired
     private TeacherService service;
 
@@ -54,14 +51,10 @@ public class TeacherController {
     public String editView(@PathVariable String id, Model model, RedirectAttributes flash) {
         log.info("edit view, id: {}", id);
         model.addAttribute("id", id);
-        Teacher teacher;
         try {
-            Long teacherId = Long.valueOf(id);
-            if (teacherId.equals(0L)) {
-                teacher = new Teacher();
-            } else {
-                teacher = repository.findById(teacherId).get();
-            }
+            Teacher teacher = service.findTeacherById(id);
+            model.addAttribute("teacher", teacher);
+            return EDIT_PAGE;
         } catch (NumberFormatException nfe) {
             log.error("error in editView: {}", nfe.getMessage());
             flash.addFlashAttribute("error", nfe.getMessage());
@@ -72,15 +65,13 @@ public class TeacherController {
             flash.addFlashAttribute("error", errorMessage);
             return REDIRECT_LIST_PAGE;
         }
-        model.addAttribute("teacher", teacher);
-        return EDIT_PAGE;
     }
 
     @PostMapping(path = "/save",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String save(@ModelAttribute Teacher teacher, RedirectAttributes flash) {
         log.info("save, teacher: {}", teacher);
-        repository.save(teacher);
+        service.save(teacher);
         flash.addFlashAttribute("success", "teacher saved successfully");
         return REDIRECT_LIST_PAGE;
     }
@@ -88,11 +79,14 @@ public class TeacherController {
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public StandardResponseDto<Object> delete(@PathVariable String id) {
-        Teacher teacher = null;
         try {
-            Long teacherId = Long.valueOf(id);
-            teacher = repository.findById(teacherId).get();
-            repository.deleteById(teacherId);
+            Teacher teacher = service.deleteTeacherById(id);
+            return StandardResponseDto.builder()
+                    .status(true)
+                    .code(HttpStatus.OK.value())
+                    .datetime(LocalDateTime.now())
+                    .data(teacher)
+                    .build();
         } catch (NumberFormatException e) {
             String message = "Number format exception: ".concat(e.getMessage());
             log.error("error in delete: {}", message, e);
@@ -112,12 +106,6 @@ public class TeacherController {
                     .data(message)
                     .build();
         }
-        return StandardResponseDto.builder()
-                    .status(true)
-                    .code(HttpStatus.OK.value())
-                    .datetime(LocalDateTime.now())
-                    .data(teacher)
-                    .build();
     }
 
 }

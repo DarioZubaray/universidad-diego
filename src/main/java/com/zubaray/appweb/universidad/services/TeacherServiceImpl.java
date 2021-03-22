@@ -39,5 +39,28 @@ public class TeacherServiceImpl implements TeacherService {
                     .build();
     }
 
-    
+
+    @Override
+    public Teacher findTeacherById(String id) {
+        Long teacherId = Long.valueOf(id);
+        if (teacherId.equals(0L)) {
+            return new Teacher();
+        } else {
+            return repository.findById(teacherId).get();
+        }
+    }
+
+    @Override
+    public void save(Teacher teacher) {
+        repository.save(teacher);
+    }
+
+    @Override
+    public Teacher deleteTeacherById(String id) {
+        Long teacherId = Long.valueOf(id);
+        Teacher teacher = repository.findById(teacherId).get();
+        repository.deleteById(teacherId);
+        return teacher;
+    }
+
 }
