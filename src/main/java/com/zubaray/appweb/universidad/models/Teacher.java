@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,16 +19,19 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@Entity
 @ToString
 @NoArgsConstructor
+@Entity
 public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty()
     private String name;
+    @NotEmpty()
     private String address;
+    @Positive
     private long identification;
     private boolean active;
 

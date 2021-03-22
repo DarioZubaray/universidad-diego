@@ -18,17 +18,20 @@
 
 		<div class="form-group">
 			<label for="name">Name</label>
-			<input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name" />
+			<input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name" required autofocus/>
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error this name is not valid.</p>
 		</div>
 
 		<div class="form-group">
 			<label for="address">Address</label>
-			<input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Enter an address">
+			<input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Enter an address" required>
+			<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Error this address is not valid.</p>
 		</div>
 
 		<div class="form-group">
 			<label for="identification">Identification</label>
-			<input th:field="*{identification}" type="number" class="form-control" id="identification" placeholder="Enter an identification">
+			<input th:field="*{identification}" type="number" class="form-control" id="identification" placeholder="Enter an identification" required minlength="8" maxlength="10">
+			<p th:if="${#fields.hasErrors('identification')}" th:errors="*{identification}">Error this identification is not valid.</p>
 		</div>
 
 		<div class="form-check">

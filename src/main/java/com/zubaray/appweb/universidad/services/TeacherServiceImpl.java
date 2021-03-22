@@ -25,7 +25,7 @@ public class TeacherServiceImpl implements TeacherService {
         if (size == null) {
             size = 10;
         }
-        
+
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
         Page<Teacher> pageTeacher = repository.findAll(pageable);
         Long totalPage = Long.valueOf(pageTeacher.getTotalPages());

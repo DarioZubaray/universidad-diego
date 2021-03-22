@@ -6,11 +6,15 @@ import static com.zubaray.appweb.universidad.constants.TeacherConstants.REDIRECT
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -69,8 +73,11 @@ public class TeacherController {
 
     @PostMapping(path = "/save",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String save(@ModelAttribute Teacher teacher, RedirectAttributes flash) {
+    public String save(@Valid @ModelAttribute Teacher teacher, BindingResult result, RedirectAttributes flash) {
         log.info("save, teacher: {}", teacher);
+        if (result.hasErrors()) { 
+            return EDIT_PAGE;
+        }
         service.save(teacher);
         flash.addFlashAttribute("success", "teacher saved successfully");
         return REDIRECT_LIST_PAGE;
