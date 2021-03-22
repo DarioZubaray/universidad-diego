@@ -10,7 +10,7 @@
 	<hr />
 	<button th:onclick="deleteTeacher()">Delete</button>
 
-	<form th:action="@{/save}" th:object="${teacher}" method="post">
+	<form th:action="@{/teacher/save}" th:object="${teacher}" method="post">
 		<div class="form-group">
 			<label for="id">id</label>
 			<input th:field="*{id}" type="hidden" class="form-control" id="id" />
@@ -42,15 +42,17 @@
 	<script>
 		function deleteTeacher() {
 			const response = confirm('are you sure?');
-			console.log('confirm', response);
 			if (response) {
 				const teacherId = document.getElementById("teacher_id").innerHTML;
-				console.log('teacherID', teacherId);
 
-				return fetch('/eliminar/' + teacherId, {
+				return fetch('/teacher/delete/' + teacherId, {
 						method: 'DELETE'
-					}).then(() => {
-						document.location.href = '/list/';
+					}).then(response => {
+						if (response?.status && response.code === 200) {
+							document.location.href = '/teacher/list/';
+						} else {
+							alert('Something went wrong');
+						}
 					});
 				}
 			}

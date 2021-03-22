@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,5 +31,6 @@ public class Teacher {
     private boolean active;
 
     @OneToMany(mappedBy = "teacher")
+    @JsonIgnore
     private List<Subject> subject;
 }

@@ -7,11 +7,16 @@
 </head>
 <body>
 	<h1>Teachers!</h1>
-	<div th:if="${error}" class="alert alert-danger" role="alert">
-		<span th:text="${error}"> Name </span>
+
+	<div th:if="${success}" class="alert alert-success" role="alert">
+		<span th:text="${success}"> success </span>
 	</div>
+	<div th:if="${error}" class="alert alert-danger" role="alert">
+		<span th:text="${error}"> error </span>
+	</div>
+
 	<hr />
-	<a th:href="@{/edit/0}" class="btn btn-secondary">New</a>
+	<a th:href="@{/teacher/edit/0}" class="btn btn-secondary">New</a>
 	<table>
 		<thead>
 			<tr>
@@ -32,7 +37,7 @@
 				<td><span th:text="${t.address}"> Address </span></td>
 				<td><span th:text="${t.identification}"> identification </span></td>
 				<td><span th:text="${t.active}"> active </span></td>
-				<td><a th:href="@{/edit/{id}(id=${t.id})}">edit</a></td>
+				<td><a th:href="@{/teacher/edit/{id}(id=${t.id})}">edit</a></td>
 			</tr>
 		</tbody>
 	</table>
