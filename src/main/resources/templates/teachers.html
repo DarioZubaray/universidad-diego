@@ -3,15 +3,15 @@
 	xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Spring Security Example</title>
+	<title>Teachers</title>
 </head>
 <body>
 	<h1>Teachers!</h1>
 	<div th:if="${error}" class="alert alert-danger" role="alert">
-	  <span th:text="${${error}"> Name </span>
+		<span th:text="${error}"> Name </span>
 	</div>
-    <hr />
-    <a th:href="@{/edit/0}" class="btn btn-secondary">New</a>
+	<hr />
+	<a th:href="@{/edit/0}" class="btn btn-secondary">New</a>
 	<table>
 		<thead>
 			<tr>
@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 			<tr th:if="${teachers.empty}">
-				<td colspan="2">No Books Available</td>
+				<td colspan="2">No Teachers Available</td>
 			</tr>
 
 			<tr th:each="t : ${teachers}">

@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title></title>
+	<title>Edit</title>
 </head>
 <body>
-    <h1 id="teacher_id" th:text="${id}"> id </h1>
-    <hr />
-    <button th:onclick="deleteTeacher()">Delete</button>
+	<h1 id="teacher_id" th:text="${id}"> id </h1>
+	<hr />
+	<button th:onclick="deleteTeacher()">Delete</button>
 
-    <form th:action="@{/save}" th:object="${teacher}" method="post">
-        <div class="form-group">
-            <label for="id">id</label>
-            <input th:field="*{id}" type="hidden" class="form-control" id="id" />
-        </div>
+	<form th:action="@{/save}" th:object="${teacher}" method="post">
+		<div class="form-group">
+			<label for="id">id</label>
+			<input th:field="*{id}" type="hidden" class="form-control" id="id" />
+		</div>
 
 		<div class="form-group">
-		    <label for="name">Name</label>
-		    <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name" />
-		</div>
-	
-		<div class="form-group">
-		    <label for="address">Address</label>
-		    <input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Enter an address">
-		</div>
-        
-        <div class="form-group">
-            <label for="identification">Identification</label>
-            <input th:field="*{identification}" type="number" class="form-control" id="identification" placeholder="Enter an identification">
-        </div>
-        
-        <div class="form-check">
-		  <input class="form-check-input" type="checkbox" value="" id="active" th:checked="*{active}">
-		  <label class="form-check-label" for="active">Active</label>
+			<label for="name">Name</label>
+			<input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name" />
 		</div>
 
-        <button class="btn btn-primary" type="submit">Save</button>
+		<div class="form-group">
+			<label for="address">Address</label>
+			<input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Enter an address">
+		</div>
+
+		<div class="form-group">
+			<label for="identification">Identification</label>
+			<input th:field="*{identification}" type="number" class="form-control" id="identification" placeholder="Enter an identification">
+		</div>
+
+		<div class="form-check">
+			<input class="form-check-input" type="checkbox" value="" id="active" th:field="*{active}">
+			<label class="form-check-label" for="active">Active</label>
+		</div>
+
+		<button class="btn btn-primary" type="submit">Save</button>
 	</form>
 
-    <script>
-	    function deleteTeacher() {
-	    	const response = confirm('are you sure?');
-	    	console.log('confirm', response);
-	    	if (response) {
-	    		const teacherId = document.getElementById("teacher_id").innerHTML;
-	    		console.log('teacherID', teacherId);
+	<script>
+		function deleteTeacher() {
+			const response = confirm('are you sure?');
+			console.log('confirm', response);
+			if (response) {
+				const teacherId = document.getElementById("teacher_id").innerHTML;
+				console.log('teacherID', teacherId);
 
-	    	    return fetch('/eliminar/' + teacherId, {
-	    	        method: 'DELETE'
-	    	    }).then(() => {
-	    	        document.location.href = '/list/';
-	    	    })
-	    	    }
-	    	}
-	    
-    </script>
+				return fetch('/eliminar/' + teacherId, {
+						method: 'DELETE'
+					}).then(() => {
+						document.location.href = '/list/';
+					});
+				}
+			}
+		
+	</script>
 </body>
 </html>
