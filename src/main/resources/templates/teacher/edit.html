@@ -50,8 +50,11 @@
 
 				return fetch('/teacher/delete/' + teacherId, {
 						method: 'DELETE'
-					}).then(response => {
-						if (response?.status && response.code === 200) {
+					})
+					.then(response => response.json())
+					.then(jsonResponse => {
+						if (jsonResponse?.status && jsonResponse.code === 200) {
+							alert(`Teacher ${jsonResponse.data.name} deleted successfully`);
 							document.location.href = '/teacher/list/';
 						} else {
 							alert('Something went wrong');

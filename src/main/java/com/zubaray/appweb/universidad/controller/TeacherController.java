@@ -1,8 +1,8 @@
 package com.zubaray.appweb.universidad.controller;
 
-import static com.zubaray.appweb.universidad.constants.TeacherConstants.EDIT_PAGE;
-import static com.zubaray.appweb.universidad.constants.TeacherConstants.LIST_PAGE;
-import static com.zubaray.appweb.universidad.constants.TeacherConstants.REDIRECT_LIST_PAGE;
+import static com.zubaray.appweb.universidad.constants.PageConstants.EDIT_PAGE;
+import static com.zubaray.appweb.universidad.constants.PageConstants.LIST_PAGE;
+import static com.zubaray.appweb.universidad.constants.PageConstants.REDIRECT_LIST_PAGE;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
