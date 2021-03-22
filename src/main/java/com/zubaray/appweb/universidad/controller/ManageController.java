@@ -1,5 +1,9 @@
 package com.zubaray.appweb.universidad.controller;
 
+import static com.zubaray.appweb.universidad.constants.TeacherConstants.EDIT_PAGE;
+import static com.zubaray.appweb.universidad.constants.TeacherConstants.LIST_PAGE;
+import static com.zubaray.appweb.universidad.constants.TeacherConstants.REDIRECT_LIST_PAGE;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +33,7 @@ public class ManageController {
     public String list(Model model) {
         log.info("listing all teachers");
         model.addAttribute("teachers", repository.findAll());
-        return "teachers";
+        return LIST_PAGE;
     }
 
     @GetMapping("/edit/{id}")
@@ -41,21 +45,21 @@ public class ManageController {
             Long teacherId = Long.valueOf(id);
             if (teacherId.equals(0L)) {
                 model.addAttribute("teacher", new Teacher());
-                return "edit";
+                return EDIT_PAGE;
             }
             opt = repository.findById(Long.valueOf(id));
             if (opt.isEmpty()) {
                 log.error("error: {}", "No existe teacher con ese id");
                 flash.addFlashAttribute("error", "No existe teacher con ese id");
-                return "redirect:/list";
+                return REDIRECT_LIST_PAGE;
             }
         } catch (NumberFormatException e) {
             log.error("error: {}", e.getMessage(), e);
             flash.addFlashAttribute("error", e.getMessage());
-            return "redirect:/list";
+            return REDIRECT_LIST_PAGE;
         }
         model.addAttribute("teacher", opt.get());
-        return "edit";
+        return EDIT_PAGE;
     }
 
     @PostMapping(path = "/save",
@@ -63,7 +67,7 @@ public class ManageController {
     public String edit(@ModelAttribute Teacher teacher) {
         log.info("edit, teacher: {}", teacher);
         repository.save(teacher);
-        return "redirect:/list";
+        return REDIRECT_LIST_PAGE;
     }
 
     @DeleteMapping("/eliminar/{id}")
@@ -75,7 +79,7 @@ public class ManageController {
             log.error("error: {}", e.getMessage(), e);
             flash.addFlashAttribute("error", e.getMessage());
         }
-        return"redirect:/list";
+        return REDIRECT_LIST_PAGE;
     }
 
 }
