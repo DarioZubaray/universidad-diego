@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+	crossorigin="anonymous">
+<title>Subjects</title>
+</head>
+<body>
+	<div class="container mt-4">
+		<h1>Subjects!</h1>
+
+		<div th:if="${success}" class="alert alert-success" role="alert">
+			<span th:text="${success}"> success </span>
+		</div>
+		<div th:if="${error}" class="alert alert-danger" role="alert">
+			<span th:text="${error}"> error </span>
+		</div>
+
+		<hr />
+		<a th:href="@{/subject/edit/0}" class="btn btn-outline-secondary my-4"
+			>New</a>
+		<table class="table table-hover table-dark">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Schedule</th>
+					<th>Teacher</th>
+					<th class="text-center">maximunStudent</th>
+					<th class="text-center">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${subjects.empty}">
+					<td colspan="2">No Subject Available</td>
+				</tr>
+
+				<tr th:each="s: ${subjects}">
+					<td><span th:text="${s.name}"> Name </span></td>
+					<td><span th:text="${s.schedule}"> Schedule </span></td>
+					<td><span th:text="${s.teacher.name}"> Teacher </span></td>
+					<td class="text-center"><span th:text="${s.maximunStudent}">
+							MaximunStudent </span></td>
+					<td class="text-center"><a class="btn btn-outline-info"
+						th:href="@{/subject/edit/{id}(id=${s.id})}">Edit</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<ul class="pagination">
+			<li class="page-item"
+				th:class="${subjectPages.currentPage eq 0} ? 'disabled' : ''">
+				<a class="page-link" th:if="${not subjectPages.firstPage}"
+				th:href="@{${'/subject/list'}(page=${subjectPages.currentPage-1},size=${subjectPages.sizeShowed})}">Previous</a>
+				<a class="page-link" th:if="${subjectPages.firstPage}"
+				href="javascript:void(0);">Previous</a>
+			</li>
+
+			<li class="page-item"
+				th:each="pageNo : ${#numbers.sequence(0, subjectPages.totalPages - 1)}"
+				th:class="${subjectPages.currentPage eq pageNo}? 'active' : ''">
+				<a class="page-link" th:if="${subjectPages.currentPage  eq pageNo}"
+				href="javascript:void(0);"> <span th:text="${pageNo + 1}"></span>
+			</a> <a class="page-link"
+				th:if="${not (subjectPages.currentPage  eq pageNo)}"
+				th:href="@{${'/subject/list'}(page=${pageNo},size=${subjectPages.sizeShowed})}">
+					<span th:text="${pageNo + 1}"></span>
+			</a>
+
+			</li>
+			<li class="page-item"
+				th:class="${subjectPages.currentPage + 1 ge subjectPages.totalPages} ? 'disabled' : ''">
+				<a class="page-link" th:if="${not subjectPages.lastPage}"
+				th:href="@{${'/subject/list'}(page=${subjectPages.currentPage+1},size=${subjectPages.sizeShowed})}">Next</a>
+				<a class="page-link" th:if="${subjectPages.lastPage}"
+				href="javascript:void(0);">Next</a>
+			</li>
+		</ul>
+	</div>
+	
+	
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+		integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+		crossorigin="anonymous"></script>
+</body>
+</html>
