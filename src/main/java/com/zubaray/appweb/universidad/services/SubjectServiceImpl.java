@@ -30,8 +30,13 @@ public class SubjectServiceImpl implements SubjectService {
 		Page<Subject> pageSubject = repository.findAll(pageable);
 		Long totalPage = Long.valueOf(pageSubject.getTotalPages());
 
-		return ListView.<Subject>builder().totalPages(totalPage).currentPage(page).sizeShowed(size)
-				.firstPage(page.equals(0)).lastPage(page.equals(totalPage)).data(pageSubject.getContent()).build();
+		return ListView.<Subject>builder()
+					.totalPages(totalPage)
+					.currentPage(page).sizeShowed(size)
+					.firstPage(page.equals(0))
+					.lastPage(page.equals(totalPage.intValue() - 1))
+					.data(pageSubject.getContent())
+					.build();
 	}
 
 	@Override

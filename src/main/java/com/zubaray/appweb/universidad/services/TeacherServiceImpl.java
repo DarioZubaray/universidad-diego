@@ -34,7 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
                     .totalPages(totalPage)
                     .currentPage(page).sizeShowed(size)
                     .firstPage(page.equals(0))
-                    .lastPage(page.equals(totalPage))
+                    .lastPage(page.equals(totalPage.intValue() -1))
                     .data(pageTeacher.getContent())
                     .build();
     }
